@@ -1,0 +1,25 @@
+name: Auto Commits
+
+on:
+  schedule:
+    - cron: '0 0 */3 * *'  # Runs every 3 days at midnight UTC
+  workflow_dispatch:
+
+jobs:
+  commit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Make 4 commits
+        run: |
+          for i in {1..4}
+          do
+            echo "$(date) - Commit #$i" >> commit_log.txt
+            git config user.name "ananyajaiswal2810"
+            git config user.email "jananya272@gmail"
+            git add commit_log.txt
+            git commit -m "Auto commit #$i on $(date)"
+          done
+          git push
